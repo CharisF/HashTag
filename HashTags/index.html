@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Hash Tag Generator</title>
+		<meta name="description" content="HashTag Generator for the Web Ninja Competition" />
+		<meta name="keywords" content="form, tags, hashtags, who knows what next, babies sleeping" />
+		<meta name="author" content="CF" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<script src="js/modernizr.custom.js"></script>
+		
+	</head>
+	<body>
+		<div class="container">
+			<!-- Top Navigation -->
+
+			<section>
+				<form id="theForm" class="simform" autocomplete="off">
+					<div class="simform-inner">
+						<ol class="questions">
+							<li>
+								<span>
+									<label for="q1">
+										<span top:10px;="" position:absolute;="" style="font-size:78px; font-family: arial; font-weight:bold"># </span>
+										URL Hasher
+									</label>
+								</span>
+								<input id="q1" name="q1" placeholder="e.g. http://www.sigmalive.com/" type="text"/>
+							</li>
+							<li>
+								<span><label for="q2">Ready to generate HashTags?</label></span>
+								<input id="q2" name="q2" placeholder="e.g. yes" type="text"/>
+							</li>
+							<li>
+								<span><label for="q3">How many tags you want?</label></span>
+								<input id="q3" name="q3" placeholder="e.g. 13" type="number"/>
+							</li>
+						</ol><!-- /questions -->
+						<button class="submit" type="submit">Send answers</button>
+						<div class="controls">
+							<button class="next"></button>
+							<div class="progress"></div>
+							<span class="number">
+								<span class="number-current"></span>
+								<span class="number-total"></span>
+							</span>
+							<span class="error-message"></span>
+						</div><!-- / controls -->
+					</div><!-- /simform-inner -->
+					<span class="final-message"></span>
+				</form><!-- /simform -->
+				<div id="hashtags"> </div>				
+			</section>
+
+		</div><!-- /container -->
+		<script src="js/classie.js"></script>
+		<script src="js/stepsForm.js"></script>
+		
+		<script>
+			var theForm = document.getElementById( 'theForm' );
+			new stepsForm( theForm, {
+				onSubmit : function( form ) {
+					// hide form
+					classie.addClass( theForm.querySelector( '.simform-inner' ), 'hide' );
+					var messageEl = theForm.querySelector( '.final-message' );
+					messageEl.innerHTML = 'Please wait (a year or less) while processing your request!';
+					classie.addClass( messageEl, 'show' );
+					loadDoc();
+					
+			 
+				}
+			} );
+			
+			function loadDoc() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					document.getElementById("hashtags").innerHTML = xhttp.responseText;
+				}
+				};
+				xhttp.open("GET", "/HashTags/test.php?"+document.getElementById("q1").value, true);
+				xhttp.send();
+			}
+		</script>
+	</body>
+</html>
